@@ -46,12 +46,16 @@ Installation:
 
     ```
     from qutebrowser.utils import standarddir
-    with open(os.path.join(standarddir.config(),
-                           'javascript_enabled_patterns.txt')) as patterns:
-        pattern = patterns.readline().strip()
-        while pattern:
-            config.set('content.javascript.enabled', True, pattern)
+    try:
+        with open(os.path.join(standarddir.config(),
+                               'javascript_enabled_patterns.txt')) as patterns:
             pattern = patterns.readline().strip()
+            while pattern:
+                config.set('content.javascript.enabled', True, pattern)
+                pattern = patterns.readline().strip()
+    except FileNotFoundError:
+        # No file? No problem
+        pass
     ```
 Usage:
     qutejs --userscript [-t] [url]
