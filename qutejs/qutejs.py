@@ -43,7 +43,8 @@ if __name__ == '__main__':
     else:
         domain = domain_parts[0]
         port = None
-    sld = '.'.join(p for p in tldextract.extract(domain)[1:] if p)
+    tld_result = tldextract.extract(domain)
+    sld = '{}.{}'.format(tld_result.domain, tld_result.suffix)
     assert sld, 'Malformed url'
     pattern = '*://*.{}{}/*'.format(sld, ':' + port if port else '')
 
